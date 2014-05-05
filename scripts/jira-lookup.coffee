@@ -17,7 +17,7 @@
 #   Benjamin Sherman  <benjamin@jivesoftware.com> (http://www.jivesoftware.com)
 
 module.exports = (robot) ->
-  robot.hear /\b(?i)\b(PRISM|TROPO|OPS|DT|SUP)-\d{1,6}\b/, (msg) ->
+  robot.hear /\b(PRISM|TROPO|OPS|DT|SUP)-\d{1,6}\b/i, (msg) ->
   #robot.hear /\b[a-zA-Z]{2,5}-[0-9]{1,5}\b/, (msg) ->
     issue = msg.match[0]
     user = process.env.HUBOT_JIRA_LOOKUP_USERNAME
@@ -42,16 +42,16 @@ module.exports = (robot) ->
                       json_description += item
           json_assignee = ""
           if json.fields.assignee
-              json_assignee = "\n Assignee:    "
+              json_assignee = "\nAssignee:    "
               unless json.fields.assignee is null or json.fields.assignee.nil? or json.fields.assignee.empty?
                   unless json.fields.assignee.name.nil? or json.fields.assignee.name.empty?
                       json_assignee += json.fields.assignee.name
           json_status = ""
           if json.fields.status
-              json_status = "\n Status:      "
+              json_status = "\nStatus:      "
               unless json.fields.status is null or json.fields.status.nil? or json.fields.status.empty?
                   unless json.fields.status.name.nil? or json.fields.status.name.empty?
                       json_status += json.fields.status.name
-          msg.send "Issue:       #{json.key}: #{json_summary}#{json_description}#{json_assignee}#{json_status}\n Link:        #{process.env.HUBOT_JIRA_LOOKUP_URL}/browse/#{json.key}\n"
+          msg.send "Issue:       #{json.key}: #{json_summary}#{json_description}#{json_assignee}#{json_status}\nLink:        #{process.env.HUBOT_JIRA_LOOKUP_URL}/browse/#{json.key}\n"
         catch error
           msg.send "*sinister laugh*"
