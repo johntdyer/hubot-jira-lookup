@@ -21,7 +21,7 @@ module.exports = (robot) ->
   #robot.hear /\b(PRISM|TROPO|OPS|DT|SUP)-\d{1,6}\b/i, (msg) ->
   robot.respond /((PRISM|TROPO|ADMIN|OPS|DT|SUP)-\d{2,})\b/i, (msg) ->
   #robot.hear /\b[a-zA-Z]{2,5}-[0-9]{1,5}\b/, (msg) ->
-    issue = msg.match[0]
+    issue = msg.match[1]
     console.log "msg.match: #{Util.inspect(msg.match)}"
     user = process.env.HUBOT_JIRA_LOOKUP_USERNAME
     pass = process.env.HUBOT_JIRA_LOOKUP_PASSWORD
