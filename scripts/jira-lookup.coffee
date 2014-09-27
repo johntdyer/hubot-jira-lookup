@@ -15,11 +15,14 @@
 # Author:
 #   Matthew Finlayson <matthew.finlayson@jivesoftware.com> (http://www.jivesoftware.com)
 #   Benjamin Sherman  <benjamin@jivesoftware.com> (http://www.jivesoftware.com)
+Util = require "util"
 
 module.exports = (robot) ->
+  #robot.hear /\b(PRISM|TROPO|OPS|DT|SUP)-\d{1,6}\b/i, (msg) ->
   robot.respond /((PRISM|TROPO|ADMIN|OPS|DT|SUP)-\d{2,})\b/i, (msg) ->
   #robot.hear /\b[a-zA-Z]{2,5}-[0-9]{1,5}\b/, (msg) ->
     issue = msg.match[0]
+    console.log "msg.match: #{Util.inspect(msg.match)}"
     user = process.env.HUBOT_JIRA_LOOKUP_USERNAME
     pass = process.env.HUBOT_JIRA_LOOKUP_PASSWORD
     url = process.env.HUBOT_JIRA_LOOKUP_URL
@@ -54,4 +57,5 @@ module.exports = (robot) ->
                       json_status += json.fields.status.name
           msg.send "Issue:       #{json.key}: #{json_summary}#{json_description}#{json_assignee}#{json_status}\nLink:        #{process.env.HUBOT_JIRA_LOOKUP_URL}/browse/#{json.key}\n"
         catch error
+          console.error "error -> #{error}"
           msg.send "*sinister laugh*"
